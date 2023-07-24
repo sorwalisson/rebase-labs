@@ -1,0 +1,31 @@
+services:
+  web:
+    image: ruby
+    working_dir: /app
+    volumes:
+      - .:/app
+      - labs-gems:/usr/local/bundle
+    command: bash -c "bundle install && ruby server.rb"
+    ports:
+      - "4000:3000"
+    depends_on:
+      - db
+    networks:
+      - rebase-labs
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: '87273836'
+    volumes:
+      - ./database:/var/lib/postgresql
+    networks:
+      - rebase-labs
+
+volumes:
+  labs-gems:
+
+networks:
+  rebase-labs:
