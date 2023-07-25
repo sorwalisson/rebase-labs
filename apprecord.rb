@@ -5,10 +5,11 @@ class AppRecord < Dbmanager
     attributes_hash = self.instance_variables.each_with_object({}) do |var, hash|
       hash[var.to_s.delete("@")] = self.instance_variable_get(var)
     end
+    attributes_hash.delete('id')
     keys = attributes_hash.keys.join(', ')
     values = attributes_hash.values.map { |value| "'#{value}'" }.join(', ')
     insert_query = "INSERT INTO #{self.class.name.downcase.pluralize} (#{keys}) VALUES (#{values});"
-    dbmanager.do_query(insert_query)
+    result = dbmanager.do_query(insert_query)
   end
 
   def self.count
@@ -22,7 +23,11 @@ class AppRecord < Dbmanager
     carrier = Dbmanager.new
     key = arg.keys.first.to_s
     value = arg[arg.keys.first]
-    where_query = "SELECT * FROM #{self.name.downcase.pluralize} WHERE #{key} = '#{value}';"
+    if value.is_a?(String)
+      where_query = "SELECT * FROM #{self.name.downcase.pluralize} WHERE #{key} = '#{value}';"
+    else
+      where_query = "SELECT * FROM #{self.name.downcase.pluralize} WHERE #{key} = #{value};"
+    end
     query_result = carrier.do_query(where_query)
     obj_array = Array.new
     query_result.each {|obj| obj_array << self.new(obj.transform_keys(&:to_sym))}
@@ -39,7 +44,11 @@ class AppRecord < Dbmanager
     carrier = Dbmanager.new
     key = arg.keys.first.to_s
     value = arg[arg.keys.first]
-    find_by_query = carrier.do_query("SELECT * FROM #{self.name.downcase.pluralize} WHERE #{key} = '#{value.to_s}' LIMIT 1;")
+    if value.is_a?(String)
+      find_by_query = carrier.do_query("SELECT * FROM #{self.name.downcase.pluralize} WHERE #{key} = '#{value}' LIMIT 1;")
+    else
+      find_by_query = carrier.do_query("SELECT * FROM #{self.name.downcase.pluralize} WHERE #{key} = #{value} LIMIT 1;")
+    end
     self.new(find_by_query.first.transform_keys(&:to_sym))
   end
 end

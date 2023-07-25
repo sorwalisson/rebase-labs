@@ -77,7 +77,6 @@ class Testemanager
     con.exec("DELETE FROM exams;")
     con.exec("DELETE FROM patients;")
     con.exec("DELETE FROM doctors;")
-    con.exec("TRUNCATE exams RESTART IDENTITY CASCADE;")
     con.close
   end
 end

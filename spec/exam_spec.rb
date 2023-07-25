@@ -38,7 +38,7 @@ RSpec.describe Exam do
                               exam_ranges: "45-52", exam_results:"97", patient_id: Patient.first.id, doctor_id: Doctor.first.id)
         novo_exame.save
 
-        exame_db = Exam.where(exam_token: novo_exame.exam_token)
+        exame_db = Exam.where(exam_token: 'IQCZ17')
 
         expect(exame_db.first.exam_token).to eq novo_exame.exam_token
         expect(exame_db.first.exam_type).to eq novo_exame.exam_type
@@ -52,14 +52,14 @@ RSpec.describe Exam do
                                     address: "165 Rua Rafaela",city: "Ituverava", state: "Alagoas")
         novo_paciente.save
 
-        Exam.new(exam_token: "IQCZ17", exam_date: Date.parse("2021-08-05"), exam_type: "hemácias",
+        Exam.new(exam_token: 'IQCZ17', exam_date: Date.parse("2021-08-05"), exam_type: "hemácias",
                  exam_ranges: "45-52", exam_results:"97", patient_id: Patient.first.id, doctor_id: Doctor.first.id).save
-        Exam.new(exam_token: "IQCZ17", exam_date: Date.parse("2021-08-05"), exam_type: "plaquetas",
-                 exam_ranges: "90-122", exam_results:"100", patient_id: Patient.first.id, doctor_id: Doctor.first.id).save
-        Exam.new(exam_token: "IQCZ17", exam_date: Date.parse("2021-08-05"), exam_type: "linfocitos",
+        Exam.new(exam_token: 'IQCZ17', exam_date: Date.parse("2021-08-05"), exam_type: "plaquetas",
+                 exam_ranges: '90-122', exam_results:"100", patient_id: Patient.first.id, doctor_id: Doctor.first.id).save
+        Exam.new(exam_token: 'IQCZ17', exam_date: Date.parse("2021-08-05"), exam_type: "linfocitos",
                  exam_ranges: "50-80", exam_results:"70", patient_id: Patient.first.id, doctor_id: Doctor.first.id).save
 
-        exames_db = Exam.where(exam_token: "IQCZ17")
+        exames_db = Exam.where(exam_token: 'IQCZ17')
 
         expect(exames_db.count).to eq 3
         expect(Exam.count).to eq 3
