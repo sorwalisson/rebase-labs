@@ -5,7 +5,7 @@ services:
     volumes:
       - .:/app
       - labs-gems:/usr/local/bundle
-    command: bash -c "bundle install && ruby server.rb"
+    command: bash -c "bundle install && bundle exec ruby runner.rb && ruby server.rb"
     ports:
       - "4000:3000"
     depends_on:
@@ -31,7 +31,7 @@ services:
       - labs-gems:/usr/local/bundle
     environment:
       - RACK_ENV=test
-    command: bash -c "bundle install && bundle exec ruby runner.rb && bundle exec rspec"
+    command: bash -c "bundle install && bundle exec ruby runner_db.rb && bundle exec rspec"
     depends_on:
       - test-db
     networks:
