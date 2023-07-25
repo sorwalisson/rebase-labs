@@ -1,7 +1,7 @@
 require './dbmanager'
 require 'pry'
 class Exam < Dbmanager
-  attr_accessor :cpf, :name, :email, :birthdate, :address, :city, :state, 
+  attr_accessor :id, :cpf, :name, :email, :birthdate, :address, :city, :state, 
                 :doctor_registration, :doctor_state_registration, :doctor_name, :doctor_email, :exam_token, :exam_date, :exam_type,
                 :exam_ranges, :exam_results
 
@@ -23,23 +23,24 @@ class Exam < Dbmanager
       @exam_type = data[:"tipo exame"]
       @exam_ranges = data[:"limites tipo exame"]
       @exam_results = data[:"resultado tipo exame"]
-    elsif data.has_key?(:name)
-      @cpf = data[:cpf]
-      @name = data[:name]
-      @email = data[:email]
-      @birthdate = data[:birthdate]
-      @address = data[:address]
-      @city = data[:city]
-      @state = data[:state]
-      @doctor_registration = data[:doctor_registration]
-      @doctor_state_registration = data[:doctor_state_registration]
-      @doctor_name = data[:doctor_name]
-      @doctor_email = data[:doctor_email]
-      @exam_token = data[:exam_token]
-      @exam_date = data[:exam_date]
-      @exam_type = data[:exam_type]
-      @exam_ranges = data[:exam_ranges]
-      @exam_results = data[:exam_results]  
+    elsif data.has_key?("name")
+      @id = data["id"].to_i
+      @cpf = data["cpf"]
+      @name = data["name"]
+      @email = data["email"]
+      @birthdate = data["birthdate"]
+      @address = data["address"]
+      @city = data["city"]
+      @state = data["state"]
+      @doctor_registration = data["doctor_registration"]
+      @doctor_state_registration = data["doctor_state_registration"]
+      @doctor_name = data["doctor_name"]
+      @doctor_email = data["doctor_email"]
+      @exam_token = data["exam_token"]
+      @exam_date = data["exam_date"]
+      @exam_type = data["exam_type"]
+      @exam_ranges = data["exam_ranges"]
+      @exam_results = data["exam_results"]  
     end
   end
 
@@ -56,5 +57,16 @@ class Exam < Dbmanager
     count_query = "SELECT COUNT(*) FROM exams;"
     query_result = carrier.do_query(count_query)
     query_result.values.first.first.to_i
+  end
+
+  def self.where(arg)
+    carrier = Dbmanager.new
+    key = arg.keys.first.to_s
+    value = arg[arg.keys.first]
+    where_query = "SELECT * FROM exams WHERE #{key} = '#{value}';"
+    query_result = carrier.do_query(where_query)
+    obj_array = Array.new
+    query_result.each {|obj| obj_array << Exam.new(obj)}
+    obj_array
   end
 end
