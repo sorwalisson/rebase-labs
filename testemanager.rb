@@ -65,7 +65,7 @@ class Testemanager
     con.close
   end
 
-  def database_cleaner
+  def self.database_cleaner
     con = PG.connect(
       dbname: 'app',
       user: 'admin',

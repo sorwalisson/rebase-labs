@@ -10,6 +10,10 @@ gem 'carrierwave'
 
 gem 'pry'
 
+gem 'redis'
+
+gem 'activesupport'
+
 group :development, :test do
   gem 'rspec'
   gem 'capybara'

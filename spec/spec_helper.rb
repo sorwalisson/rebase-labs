@@ -15,6 +15,6 @@ RSpec.configure do |config|
   config.include Capybara::DSL
 
   config.after(:each) do 
-    Testemanager.new.database_cleaner
+    Testemanager.database_cleaner
   end
 end

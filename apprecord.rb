@@ -1,4 +1,5 @@
 require './dbmanager'
+require 'active_support/inflector'
 class AppRecord < Dbmanager
   def save
     dbmanager = Dbmanager.new
@@ -10,6 +11,13 @@ class AppRecord < Dbmanager
     values = attributes_hash.values.map { |value| "'#{value}'" }.join(', ')
     insert_query = "INSERT INTO #{self.class.name.downcase.pluralize} (#{keys}) VALUES (#{values});"
     result = dbmanager.do_query(insert_query)
+  end
+
+  def self.array_save(obj_array)
+    carrier = Dbmanager.new
+    obj_array.each do |obj|
+      obj.save
+    end
   end
 
   def self.count
@@ -49,6 +57,25 @@ class AppRecord < Dbmanager
     else
       find_by_query = carrier.do_query("SELECT * FROM #{self.name.downcase.pluralize} WHERE #{key} = #{value} LIMIT 1;")
     end
+    return nil if find_by_query.first.nil?
     self.new(find_by_query.first.transform_keys(&:to_sym))
+  end
+
+  def self.all
+    carrier = Dbmanager.new
+    all_query = "SELECT * FROM #{self.name.downcase.pluralize};"
+    query_result = carrier.do_query(all_query)
+    obj_array = Array.new
+    query_result.each {|obj| obj_array << self.new(obj.transform_keys(&:to_sym))}
+    obj_array
+  end
+
+  def to_hash
+    hash = {}
+    self.instance_variables.each do |var|
+      var_name = var.to_s.gsub('@', '')
+      hash[var_name] = self.instance_variable_get(var)
+    end
+    hash
   end
 end

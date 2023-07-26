@@ -15,7 +15,7 @@ class Dbmanager
     query_result
   end
   
-  def create_table
+  def self.create_table
     con = PG.connect(
       dbname: 'app',
       user: 'admin',

@@ -10,6 +10,8 @@ services:
       - "4000:3000"
     depends_on:
       - db
+      - redis
+      - worker
     networks:
       - rebase-labs
   db:
@@ -34,6 +36,8 @@ services:
     command: bash -c "bundle install && bundle exec ruby runner_db.rb && bundle exec rspec"
     depends_on:
       - test-db
+      - redis
+      - worker
     networks:
       - rebase-labs
   test-db:
@@ -47,6 +51,23 @@ services:
       rebase-labs:
         aliases:
           - db
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - rebase-labs
+  worker:
+    image: ruby
+    working_dir: /app
+    volumes:
+      - .:/app
+      - labs-gems:/usr/local/bundle
+    command: bash -c "bundle install && bundle exec ruby appworker.rb"
+    depends_on:
+      - redis
+    networks:
+      - rebase-labs
 
 volumes:
   labs-gems:
