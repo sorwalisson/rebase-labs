@@ -12,18 +12,26 @@ CarrierWave.configure do |config|
   config.root = File.join(__dir__, "uploads")
 end
 
-get '/tests' do
+get '/api/tests' do
   Serializer.all_hash.to_json
 rescue PG::Error => e
   "Error: #{e.message}"
 end
 
-get '/hello' do
-  'Hello world!'
+get "/api/tests/:token" do
+  Serializer.by_token(params[:token]).to_json
+end
+
+get '/' do
+  erb :index
 end
 
 get '/upload' do
   erb :upload_form
+end
+
+get '/tests' do
+  erb :test
 end
 
 post '/upload' do
