@@ -12,16 +12,13 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(response => response.json())
     .then(data => {
-      // Display the success message
       uploadMessageElement.textContent = 'Arquivo enviado com sucesso!';
       uploadMessageElement.style.color = 'green';
 
-      // Clear the file input to allow for another upload
       uploadForm.reset();
     })
     .catch(error => {
       console.error('Error uploading file:', error);
-      // Display the error message
       uploadMessageElement.textContent = 'Erro ao enviar o arquivo. Por favor, tente novamente.';
       uploadMessageElement.style.color = 'red';
     });

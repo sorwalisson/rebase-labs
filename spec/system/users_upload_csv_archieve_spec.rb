@@ -9,6 +9,6 @@ feature 'CSV uploader' do
     attach_file('csv_file', file)
     click_on 'Upload'
 
-    expect(current_path).to eq '/tests'
+    expect(current_path).to eq '/upload'
   end
 end

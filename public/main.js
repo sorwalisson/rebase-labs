@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const examForm = document.getElementById('examForm');
-  const examDetailsElement = document.getElementById('examDetails'); // Element to display the fetched exam details
+  const examDetailsElement = document.getElementById('examDetails'); 
 
   examForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`/api/tests/${tokenValue}`)
       .then(response => response.json())
       .then(data => {
-        // Create an HTML string to display the exam details
+
         let htmlString = `
           <div id="dados-paciente">
             <h2>Dados do paciente</h2>
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </dl>
         `;
 
-        // Iterate over the results array and append each exam result to the HTML string
+
         data.results.forEach(result => {
           htmlString += `
             <dt><strong>${result.exam_type}:</strong></dt>
@@ -55,12 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
           `;
         });
 
-        // Update the content of the examDetailsElement with the generated HTML
         examDetailsElement.innerHTML = htmlString;
       })
       .catch(error => {
         console.error('Error fetching exam data:', error);
-        examDetailsElement.innerHTML = '<p>Error fetching exam data</p>'; // Display an error message
+        examDetailsElement.innerHTML = '<p>Error fetching exam data</p>';
       });
   });
 });

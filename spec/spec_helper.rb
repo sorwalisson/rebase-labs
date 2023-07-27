@@ -2,9 +2,7 @@ require 'rack/test'
 require 'capybara/rspec'
 require './server'
 require './testemanager'
-require './exam'
-require './patient'
-require './doctor'
+
 
 ENV['RACK_ENV'] = 'test'
 
