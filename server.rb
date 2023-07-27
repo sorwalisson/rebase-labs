@@ -35,26 +35,26 @@ get '/tests' do
 end
 
 post '/upload' do
-  rows = CSV.read(params[:csv_file][:tempfile], col_sep: ';')
-  columns = rows.shift
+  begin
+    rows = CSV.read(params[:csv_file][:tempfile], col_sep: ';')
+    columns = rows.shift
 
-  exams_json = rows.map do |row|
-    row.each_with_object({}).with_index do |(cell, acc), idx|
-      column = columns[idx]
-      acc[column] = cell
-    end
-  end.to_json
+    exams_json = rows.map do |row|
+      row.each_with_object({}).with_index do |(cell, acc), idx|
+        column = columns[idx]
+        acc[column] = cell
+      end
+    end.to_json
 
-  AppQueue.newjob("import_csv", exams_json)
-  
-  redirect '/tests'
+    AppQueue.newjob("import_csv", exams_json)
 
-rescue PG::Error => e
-  status 500
-  body "Database Error: #{e.message}"
-rescue StandardError => e
-  status 500
-  body "Error: #{e.message}"
+    content_type :json
+    { message: 'Arquivo enviado com sucesso!' }.to_json
+  rescue StandardError => e
+    status 500
+    content_type :json
+    { error: 'Erro ao enviar o arquivo.' }.to_json
+  end
 end
 
 Rack::Handler::Puma.run(

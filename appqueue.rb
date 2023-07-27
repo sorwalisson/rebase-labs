@@ -1,5 +1,4 @@
 require 'redis'
-require 'pry'
 
 class AppQueue
   def self.newjob(queue, job)

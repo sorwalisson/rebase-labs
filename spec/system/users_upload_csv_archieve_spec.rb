@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe 'Sinatra App' do
-  it 'users go to /upload page and uploads an csv archieve' do
+feature 'CSV uploader' do
+  scenario 'users go to /upload page and uploads an csv archieve' do
     visit '/upload'
 
     file = 'data.csv'

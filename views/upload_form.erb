@@ -5,11 +5,14 @@
 </head>
 <body>
   <h1> Selecione um arquivo CSV</h1>
-  <form action="/upload" method="post" enctype="multipart/form-data">
+  <form id="uploadForm" enctype="multipart/form-data">
     <input type="file" name="csv_file" />
     <input type="submit" value="Upload" />
   </form>
+  <p id="uploadMessage"></p>
   <p><a href="/tests">Resultados de exames</a></p>
   <p><a href="/">Página inicial</a></p>
+
+  <script src="upload.js"></script>
 </body>
 </html>
