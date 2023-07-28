@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <dt><strong>Médico responsável:</strong></dt>
             <dd>${data.doctor.doctor_name}</dd>
             <dt><strong>CRM:</strong></dt>
-            <dd>${data.doctor.doctor_registration}, ${data.doctor.doctor_state}</dd>
+            <dd>${data.doctor.doctor_registration}, ${data.doctor.doctor_state_registration}</dd>
           </dl>
           <h4>Resultados</h4>
           <dl>

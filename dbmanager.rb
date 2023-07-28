@@ -3,12 +3,12 @@ require 'pg'
 class Dbmanager
   def do_query(query)
     connection = PG.connect(
-      dbname: 'app',
+      dbname: 'postgres',
       user: 'admin',
       password: '87273836',
       host: 'db',
       port: '5432'    
-    )
+      )
   
     query_result = connection.exec(query)
     connection.close
@@ -17,7 +17,7 @@ class Dbmanager
   
   def self.create_table
     con = PG.connect(
-      dbname: 'app',
+      dbname: 'postgres',
       user: 'admin',
       password: '87273836',
       host: 'db',
