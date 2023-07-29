@@ -15,9 +15,7 @@ class AppRecord < Dbmanager
 
   def self.array_save(obj_array)
     carrier = Dbmanager.new
-    obj_array.each do |obj|
-      obj.save
-    end
+    obj_array.each {|obj| obj.save}
   end
 
   def self.count
