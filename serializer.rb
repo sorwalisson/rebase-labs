@@ -31,9 +31,7 @@ class Serializer
   def self.by_token(token)
     exams = Exam.where(exam_token: token.upcase)
     exams_array = []
-    exams.each do |exam|
-      exams_array << exam.to_hash.except("id", "exam_token", "exam_date", "patient_id", "doctor_id")
-    end
+    exams.each {|exam| exams_array << exam.to_hash.except("id", "exam_token", "exam_date", "patient_id", "doctor_id")}
     exam_hash = {"exam_token": "#{token.upcase}", "exam_date": exams.first.exam_date, "doctor": exams.first.doctor.to_hash.except("id"), "results": exams_array}
     exams.first.patient.to_hash.merge(exam_hash)
   end
