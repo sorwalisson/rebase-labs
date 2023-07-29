@@ -6,13 +6,13 @@ gem 'pg'
 
 gem 'puma'
 
-gem 'carrierwave'
-
-gem 'pry'
-
 gem 'redis'
 
 gem 'activesupport'
+
+gem 'sidekiq'
+
+gem 'bootstrap', '~> 5.2.3'
 
 group :development, :test do
   gem 'rspec'

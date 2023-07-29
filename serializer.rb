@@ -19,9 +19,7 @@ class Serializer
           used_tokens << exams.exam_token
         end
         patient_exams.last[:"exams_array"].each {|hash| if hash.key("id") == exams.id.to_s then status = true end} if !patient_exams.last[:"exams_array"].empty?
-        if status == false
-          patient_exams.last[:"exams_array"] << exams.to_hash.except("id", "exam_token", "exam_date", "patient_id", "doctor_id")
-        end
+        patient_exams.last[:"exams_array"] << exams.to_hash.except("id", "exam_token", "exam_date", "patient_id", "doctor_id") if !status
       end
       final_hash = {"exams" => patient_exams}
       patient_hash = patient_hash.merge(final_hash)

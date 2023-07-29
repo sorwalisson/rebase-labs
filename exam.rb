@@ -1,5 +1,4 @@
 require './apprecord'
-require 'pry'
 class Exam < AppRecord
   attr_accessor :id, :exam_token, :exam_date, :exam_type, :exam_ranges, :exam_results, :patient_id, :doctor_id
 

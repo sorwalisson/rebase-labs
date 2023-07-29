@@ -1,26 +1,13 @@
 require 'pg'
 class Testemanager
-  def create_db
-    con = PG.connect(
-    dbname: 'postgres',
-    user: 'admin',
-    password: '87273836',
-    host: 'db',
-    port: '5432'    
-    )
-
-    con.exec("CREATE DATABASE app OWNER admin;")
-    con.close
-  end
-
   def create_table
     con = PG.connect(
-      dbname: 'app',
+      dbname: 'postgres',
       user: 'admin',
       password: '87273836',
       host: 'db',
       port: '5432'    
-    )
+      )
 
     create_patients_query = <<~SQL
       CREATE TABLE IF NOT EXISTS patients (
@@ -67,7 +54,7 @@ class Testemanager
 
   def self.database_cleaner
     con = PG.connect(
-      dbname: 'app',
+      dbname: 'postgres',
       user: 'admin',
       password: '87273836',
       host: 'db',

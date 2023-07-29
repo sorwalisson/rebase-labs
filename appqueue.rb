@@ -1,9 +1,10 @@
 require 'redis'
+require './exams_importer'
+require 'sidekiq'
 
 class AppQueue
-  def self.newjob(queue, job)
-    redis = Redis.new(host: 'redis', port: 6379)
-    redis.rpush(queue, job)
-    puts "New Job to Queue"
+  def self.newjob(json)
+    ExamsImporter.perform_async(json)
+    puts "new job added to queue"
   end
 end

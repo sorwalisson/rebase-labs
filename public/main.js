@@ -11,49 +11,56 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(data => {
 
         let htmlString = `
-          <div id="dados-paciente">
-            <h2>Dados do paciente</h2>
-            <dl>
-              <dt><strong>Nome:</strong></dt>
-              <dd>${data.name}</dd>
-              <dt><strong>Email:</strong><dt> 
-              <dd>${data.email}</dd>
-              <dt><strong>Data de nascimento:</strong></dt>
-              <dd>${data.birthdate}</dd>
-              <dt><strong>Endereço:</strong></dt>
-              <dd>${data.address}</dd>
-              <dt><strong>Cidade:</strong></dt>
-              <dd>${data.city}</dd>
-              <dt><strong>Estado:</strong></dt>
-              <dd>${data.state}</dd>
-            </dl>
-          </div>
-          <h3>Detalhes dos exames</h3>
-          <dl>
-            <dt><strong>Token do exame:</strong></dt>
-            <dd>${data.exam_token}</dd>
-            <dt><strong>Data do exame:</strong></dt>
-            <dd>${data.exam_date}</dd>
-            <dt><strong>Médico responsável:</strong></dt>
-            <dd>${data.doctor.doctor_name}</dd>
-            <dt><strong>CRM:</strong></dt>
-            <dd>${data.doctor.doctor_registration}, ${data.doctor.doctor_state_registration}</dd>
-          </dl>
-          <h4>Resultados</h4>
-          <dl>
-            <!-- Exam results will be appended here -->
-          </dl>
-        `;
+          <p></p>
+          <div>
+            <div class="card" style="width: 18rem;">
+              <div class="card-header">
+                Dados do Paciente
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Nome: ${data.name}</li>
+                <li class="list-group-item">Email: ${data.email}</li>
+                <li class="list-group-item">Data de nascimento: ${data.birthdate}</li>
+                <li class="list-group-item">Endereço: ${data.address}</li>
+                <li class="list-group-item">Cidade: ${data.city}</li>
+                <li class="list-group-item">Estado: ${data.state}</li>
+              </ul>
+            </div>
+            <p></p>
+            <div class="card" style="width: 18rem;">
+              <div class="card-header">
+                Detalhes do exame
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Token do exame: ${data.exam_token}</li>
+                <li class="list-group-item">Data: ${data.exam_date}</li>
+                <li class="list-group-item">Médico responspavel: ${data.doctor.doctor_name}</li>
+                <li class="list-group-item">CRM: ${data.doctor.doctor_registration}, ${data.doctor.doctor_state_registration} </li>
+              </ul>
+            </div>
+            <p></p>
+            <div class="card" style="width: 18rem;">
+              <div class="card-header">
+                Resultados
+              </div>
+              <ul class="list-group list-group-flush">
+                <!-- Exam results will be appended here -->
+          `;
 
 
         data.results.forEach(result => {
           htmlString += `
-            <dt><strong>${result.exam_type}:</strong></dt>
-            <dd>${result.exam_results}</dd>
-            <dt><strong>Intervalo de referência:</strong></dt>
-            <dd>${result.exam_ranges}</dd>
+            <li class="list-group-item"><strong>${result.exam_type}</strong></li>
+            <li class="list-group-item">Resultado: ${result.exam_results}</li>
+            <li class="list-group-item">Intervalo de referência: ${result.exam_ranges}</li>
           `;
         });
+
+        htmlString += `
+            </ul>
+          </div>
+        </div>
+        `
 
         examDetailsElement.innerHTML = htmlString;
       })

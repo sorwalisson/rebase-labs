@@ -6,6 +6,8 @@ services:
       - .:/app
       - labs-gems:/usr/local/bundle
     command: bash -c "bundle install && bundle exec ruby runner.rb && ruby server.rb"
+    environment:
+      REDIS_URL: redis://redis:6379/0
     ports:
       - "4000:3000"
     depends_on:
@@ -32,6 +34,7 @@ services:
       - .:/app
       - labs-gems:/usr/local/bundle
     environment:
+      - REDIS_URL=redis://redis:6397
       - RACK_ENV=test
     command: bash -c "bundle install && bundle exec ruby runner_db.rb && bundle exec rspec"
     depends_on:
@@ -63,7 +66,9 @@ services:
     volumes:
       - .:/app
       - labs-gems:/usr/local/bundle
-    command: bash -c "bundle install && bundle exec ruby appworker.rb"
+    command: bash -c "bundle install && sidekiq -r ./exams_importer.rb"
+    environment:
+      REDIS_URL: redis://redis:6379/0
     depends_on:
       - redis
     networks:

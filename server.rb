@@ -2,15 +2,9 @@ require 'sinatra'
 require 'rack/handler/puma'
 require 'pg'
 require 'csv'
-require 'carrierwave'
 require './appqueue'
-require './exam'
 require './dbmanager'
 require './serializer'
-
-CarrierWave.configure do |config|
-  config.root = File.join(__dir__, "uploads")
-end
 
 get '/api/tests' do
   Serializer.all_hash.to_json
@@ -23,15 +17,15 @@ get "/api/tests/:token" do
 end
 
 get '/' do
-  erb :index
+  erb :index, layout: :layout
 end
 
 get '/upload' do
-  erb :upload_form
+  erb :upload_form, layout: :layout
 end
 
 get '/tests' do
-  erb :test
+  erb :test, layout: :layout
 end
 
 post '/upload' do
@@ -46,7 +40,7 @@ post '/upload' do
       end
     end.to_json
 
-    AppQueue.newjob("import_csv", exams_json)
+    AppQueue.newjob(exams_json)
 
     content_type :json
     { message: 'Arquivo enviado com sucesso!' }.to_json

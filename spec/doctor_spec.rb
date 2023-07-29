@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 RSpec.describe Doctor do
   describe 'Check if the New method is working' do
