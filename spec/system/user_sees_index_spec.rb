@@ -7,5 +7,6 @@ feature 'Users goes to /tests' do
 
     expect(page).to have_link "Resultados de exames"
     expect(page).to have_link "Fazer upload de novo arquivo CSV"
+    expect(page).to have_link "Pesquisar paciente pelo CPF"
   end
 end

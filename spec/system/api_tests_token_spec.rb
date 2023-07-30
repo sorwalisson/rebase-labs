@@ -2,7 +2,7 @@ require 'spec_helper'
 
 
 feature 'Users goes to api/tests' do
-  scenario 'and sees json with all patients and exams' do
+  scenario 'and sees json with patient and exams' do
     novo_medico = Doctor.new(doctor_registration: "B000BJ20J4", doctor_state_registration: "PI",
           doctor_name: "Maria Luiza Pires", doctor_email: "denna@wisozk.biz")
     novo_medico.save
@@ -14,14 +14,14 @@ feature 'Users goes to api/tests' do
           exam_ranges: "45-52", exam_results:"97", patient_id: Patient.first.id, doctor_id: Doctor.first.id)
     novo_exame.save
 
-    visit '/api/tests'
+    visit "/api/tests/#{novo_exame.exam_token}"
 
-    expect(page).to have_content Serializer.all_hash.to_json
+    expect(page).to have_content Serializer.by_token(novo_exame.exam_token).to_json
   end
 
-  scenario 'and sees that the database is empty' do
-    visit '/api/tests'
+  scenario 'and return not found when the token is not on the database' do
+    visit 'api/tests/QKQ33321'
 
-    expect(page).to have_content "There is no exams yet!"
+    expect(page).to have_content "Token not found"
   end
 end

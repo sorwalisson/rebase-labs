@@ -35,6 +35,7 @@ class AppRecord < Dbmanager
       where_query = "SELECT * FROM #{self.name.downcase.pluralize} WHERE #{key} = #{value};"
     end
     query_result = carrier.do_query(where_query)
+    return nil if query_result.first.nil?
     obj_array = Array.new
     query_result.each {|obj| obj_array << self.new(obj.transform_keys(&:to_sym))}
     obj_array
@@ -63,6 +64,7 @@ class AppRecord < Dbmanager
     carrier = Dbmanager.new
     all_query = "SELECT * FROM #{self.name.downcase.pluralize};"
     query_result = carrier.do_query(all_query)
+    return nil if query_result.first.nil?
     obj_array = Array.new
     query_result.each {|obj| obj_array << self.new(obj.transform_keys(&:to_sym))}
     obj_array

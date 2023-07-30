@@ -16,6 +16,10 @@ get "/api/tests/:token" do
   Serializer.by_token(params[:token]).to_json
 end
 
+get "/api/patients/:cpf" do
+  Serializer.by_cpf(params[:cpf]).to_json
+end
+
 get '/' do
   erb :index, layout: :layout
 end
@@ -26,6 +30,10 @@ end
 
 get '/tests' do
   erb :test, layout: :layout
+end
+
+get '/patients' do
+  erb :patients, layout: :layout
 end
 
 post '/upload' do
