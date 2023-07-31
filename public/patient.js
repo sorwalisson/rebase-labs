@@ -1,8 +1,8 @@
+let dados = null;
 document.addEventListener('DOMContentLoaded', () => {
   const patientForm = document.getElementById('patientForm');
   const dadosPacientElement = document.getElementById('dadospaciente'); 
   const dropElement = document.getElementById('droppaciente');
-  const examesElement = document.getElementById('exames');
 
   patientForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`/api/patients/${cpfValue}`)
       .then(response => response.json())
       .then(data => {
-
+        dados = data;
         let htmlString = `
                 <li class="list-group-item">Nome: ${data.name}</li>
                 <li class="list-group-item">Email: ${data.email}</li>
@@ -29,33 +29,35 @@ document.addEventListener('DOMContentLoaded', () => {
           const lastKey = keys[keys.length - 1];
           
           htmlString2 += `
-          <li><a class="dropdown-item" data-exam-index="${index}">${lastKey}</a></li>
+          <li><a class="dropdown-item" onclick="trocaTeste(${index})">${lastKey}</a></li>
         `});
 
         dropElement.innerHTML = htmlString2;
-        activateDropdown();
       })
       .catch(error => {
         console.error('Error fetching exam data:', error);
-        examDetailsElement.innerHTML = '<p>Error fetching exam data</p>';
+        // examDetailsElement.innerHTML = '<p>Error fetching exam data</p>';
       });
   });
-  
-  dropdownExamsElement.addEventListener('click', (event) => {
-    const selectedExamIndex = event.target.getAttribute('data-exam-index');
-    const selectedExam = data.exams[selectedExamIndex];
-    displayExamResults(selectedExam);
-  });
+})
 
-  function displayExamResults(examResults) {
-    let htmlString = '';
-    examResults.forEach(result => {
-      htmlString += `
-        <li class="list-group-item"><strong>${result.exam_type}</strong></li>
-        <li class="list-group-item">Resultado: ${result.exam_results}</li>
-        <li class="list-group-item">Intervalo de referência: ${result.exam_ranges}</li>
-      `;
-    });
-    examResultsElement.innerHTML = htmlString;
-  }
-});
+function trocaTeste(index) {
+  displayExamResults(dados.exams[index]);
+};
+
+
+function displayExamResults(examResults) {
+  examesElement = document.getElementById('exames');
+  console.log(examResults);
+  let htmlString = '';
+  const keys = Object.keys(examResults);
+  const lastKey = keys[keys.length - 1];
+  examResults[lastKey].forEach(result => {
+    htmlString += `
+      <li class="list-group-item"><strong>${result.exam_type}</strong></li>
+      <li class="list-group-item">Resultado: ${result.exam_results}</li>
+      <li class="list-group-item">Intervalo de referência: ${result.exam_ranges}</li>
+    `;
+  });
+  examesElement.innerHTML = htmlString;
+}

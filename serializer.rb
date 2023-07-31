@@ -7,7 +7,7 @@ class Serializer
   def self.all_hash
     final_array = Array.new
     patients = Patient.all
-    return "There is no exams yet!"
+    return "There is no exams yet!" if patients.nil?
     patients.each do |patient|
       patient_hash = patient.to_hash
       used_tokens = []

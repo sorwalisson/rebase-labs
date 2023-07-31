@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'pry'
-
 
 feature 'Users goes to api/tests' do
   scenario 'and sees json with patient and exams' do

@@ -64,7 +64,7 @@ class AppRecord < Dbmanager
     carrier = Dbmanager.new
     all_query = "SELECT * FROM #{self.name.downcase.pluralize};"
     query_result = carrier.do_query(all_query)
-    return nil if query_result.first.nil?
+    return nil if query_result.cmd_tuples == 0
     obj_array = Array.new
     query_result.each {|obj| obj_array << self.new(obj.transform_keys(&:to_sym))}
     obj_array

@@ -5,6 +5,6 @@ feature 'user goes to search patient page' do
     visit '/patients'
 
     expect(page).to have_content "Digite o CPF:"
-    expect(page).to have_button "submit"
+    expect(page).to have_button "Pesquisar"
   end
 end
